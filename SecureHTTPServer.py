@@ -7,6 +7,7 @@ See --help for usage guide.
 Author: Mehran Ahadi <mehran@ahadi.me>
 Homepage: http://mehran.ahadi.me/
 License: MIT
+Repository: https://github.com/zxcmehran/SecurePyServer
 
 Version 1.0
 """
@@ -49,9 +50,11 @@ class AuthHandler(SimpleHTTPRequestHandler):
             pass
         else:
             self.do_AUTHHEAD()
-            self.wfile.write(self.headers.getheader('Authorization'))
             self.wfile.write('You are not authenticated.')
             pass
+    # Remove if you want access log on stdout
+    def log_message(self, format, *args):
+        return
  
 def test(HandlerClass = AuthHandler,
          ServerClass = BaseHTTPServer.HTTPServer):
