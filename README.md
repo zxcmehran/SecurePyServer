@@ -3,7 +3,7 @@
 ## What's different?
 You might be familiar with [SimpleHTTPServer](https://docs.python.org/2/library/simplehttpserver.html) module already. It will give you a simple and easy to use solution for hosting content by just typing `python -m SimpleHTTPServer` in a terminal.
 
-Here is a revised version of SimpleHTTPServer with HTTPS and User Authentication support. 
+Here is a revised version of SimpleHTTPServer with HTTPS, User Authentication and Extra Threads support. 
 
 ## Installing
 You just need a clone:

@@ -9,22 +9,28 @@ Homepage: http://mehran.ahadi.me/
 License: MIT
 Repository: https://github.com/zxcmehran/SecurePyServer
 
-Version 1.0
+Version 1.1
 """
 
 import BaseHTTPServer
 from SimpleHTTPServer import SimpleHTTPRequestHandler
+from SocketServer     import ThreadingMixIn
 import sys
 import os
 import base64
 import ssl
- 
+
 key = ''
 realm = 'Private Server'
 certfile = ''
 keyfile = ''
 ssl_version = ssl.PROTOCOL_TLSv1
 cwd = ''
+# Set False if you want access log on stdout
+log_disabled = True
+
+class ThreadingHTTPServer(ThreadingMixIn, BaseHTTPServer.HTTPServer):
+    pass
 
 class AuthHandler(SimpleHTTPRequestHandler):
     def do_HEAD(self):
@@ -52,22 +58,31 @@ class AuthHandler(SimpleHTTPRequestHandler):
             self.do_AUTHHEAD()
             self.wfile.write('You are not authenticated.')
             pass
-    # Remove if you want access log on stdout
     def log_message(self, format, *args):
-        return
+    	global log_disabled
+    	if log_disabled == True:
+	        return
+        SimpleHTTPRequestHandler.log_message(self, format, *args)
+        
+class NoAuthHandler(SimpleHTTPRequestHandler):
+    def log_message(self, format, *args):
+        global log_disabled
+    	if log_disabled == True:
+	        return
+        SimpleHTTPRequestHandler.log_message(self, format, *args)
  
 def test(HandlerClass = AuthHandler,
-         ServerClass = BaseHTTPServer.HTTPServer):
+         ServerClass = ThreadingHTTPServer):
 
     global ssl_version, certfile, keyfile, key;
     
     if key == '':
     	print 'No Authorization needed.'
-    	HandlerClass = SimpleHTTPRequestHandler
+    	HandlerClass = NoAuthHandler
     else:
     	print 'Authorization is required.'
     
-    protocol = "HTTP/1.1"
+    protocol = "HTTP/1.0"
     host = ''
     port = 8000
     if len(sys.argv) > 2:
