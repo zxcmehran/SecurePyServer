@@ -1,4 +1,4 @@
-# Python HTTP Server w/ User Authentication and HTTPS support
+# Simple Python HTTP Server w/ User Authentication and HTTPS support
 
 ## What's different?
 You might be familiar with [SimpleHTTPServer](https://docs.python.org/2/library/simplehttpserver.html) module already. It will give you a simple and easy to use solution for hosting content by just typing `python -m SimpleHTTPServer` in a terminal.
